@@ -1,11 +1,13 @@
 import { createContext } from "react";
 
 interface IAppContext {
-  isQualified?: boolean;
+  isQualified: null | boolean;
+  setIsQualified: (isQualified?: boolean) => void;
 }
 
 const AppContext = createContext<IAppContext>({
-  isQualified: undefined,
+  isQualified: null,
+  setIsQualified: () => {},
 });
 
 export default AppContext;
