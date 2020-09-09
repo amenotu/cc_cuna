@@ -1,19 +1,28 @@
 import React, { useState } from "react";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 
-/**
- * Contains a form that has:
- * Auto Purchase Price (currency)
- * Auto Make (text)
- * Auto Model (text)
- * User Estimated Yearly Income (currency)
- * User Estimated Credit Score (Number from 200-850)
- * must have simple validation
- * all form inputs are required to proceed
- */
+interface FormData {
+  autoPurchasePrice: number;
+  autoMake: string;
+  autoModel: string;
+  estimatedYearlyIncome: number;
+  estimatedCreditScore: number;
+}
 
 export default function LandingPage() {
   const [isValid, setIsValid] = useState(false);
+  let initialFormData = {
+    autoPurchasePrice: 0,
+    autoMake: "",
+    autoModel: "",
+    estimatedYearlyIncome: 0,
+    estimatedCreditScore: 0,
+  };
+  const [formData, updateFormData] = useState<FormData>(initialFormData);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLInputElement>) => {
     const form = event.currentTarget;
@@ -23,6 +32,17 @@ export default function LandingPage() {
       event.preventDefault();
       event.stopPropagation();
     }
+
+    /**
+     * TODO: Implement mockpost here. A post request will be made here when
+     * the form is submitted, which won't happen until it all inputs pass
+     * validation. The response from the API call will come back
+     * with a qualified flag that will be true/false, where true will cause
+     * the app the route to /qualifed [NewAccontPage] so users can create
+     * and account, and false will route to /disqualified [DisqualificationPage]
+     * where users see the dq notice and are asked to contact customer service.
+     */
+
     setIsValid(true);
   };
 
@@ -38,6 +58,8 @@ export default function LandingPage() {
             <FormControl
               aria-label="Amount (to the nearest dollar)"
               type="number"
+              name="autoPurchasePrice"
+              onChange={handleChange}
               placeholder="5000"
               required
             />
@@ -48,14 +70,26 @@ export default function LandingPage() {
         </Form.Group>
         <Form.Group>
           <Form.Label>Auto Make</Form.Label>
-          <Form.Control type="text" placeholder="Toyota" required />
+          <Form.Control
+            type="text"
+            placeholder="Toyota"
+            name="autoMake"
+            onChange={handleChange}
+            required
+          />
           <Form.Control.Feedback type="invalid">
             Please enter an Auto Make.
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group>
           <Form.Label>Auto Model</Form.Label>
-          <Form.Control type="text" placeholder="Tacoma" required />
+          <Form.Control
+            type="text"
+            placeholder="Tacoma"
+            name="autoModel"
+            onChange={handleChange}
+            required
+          />
           <Form.Control.Feedback type="invalid">
             Please enter an Auto Model.
           </Form.Control.Feedback>
@@ -71,6 +105,8 @@ export default function LandingPage() {
             <FormControl
               aria-label="Amount (to the nearest dollar)"
               type="number"
+              name="estimatedYearlyIncome"
+              onChange={handleChange}
               placeholder="45000"
               required
             />
@@ -83,6 +119,8 @@ export default function LandingPage() {
           <Form.Label>Estimated Credit Score</Form.Label>
           <Form.Control
             type="number"
+            name="estimatedCreditScore"
+            onChange={handleChange}
             placeholder="678"
             required
             min="300"
