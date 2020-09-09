@@ -1,6 +1,6 @@
 interface Response {
-  status: number;
-  statusText: string;
+  status?: number;
+  statusText?: string;
   qualificationStatus: null | boolean;
   dqMsg?: string;
 }
@@ -22,8 +22,8 @@ export const mockPost = (requestObj: Request) => {
   const aFifthOfEYI = parsedRequestObj.estimatedYearlyIncome / 5;
 
   let response: Response = {
-    status: 200,
-    statusText: "Success",
+    status: undefined,
+    statusText: undefined,
     qualificationStatus: null,
   };
 
@@ -35,9 +35,13 @@ export const mockPost = (requestObj: Request) => {
       parsedRequestObj.autoPurchasePrice > aFifthOfEYI ||
       parsedRequestObj.estimatedCreditScore < 600
     ) {
+      response.status = 200;
+      response.statusText = "Success";
       response.qualificationStatus = false;
       response.dqMsg = "some Lorem Ispsum";
     } else {
+      response.status = 200;
+      response.statusText = "Success";
       response.qualificationStatus = true;
     }
   }
