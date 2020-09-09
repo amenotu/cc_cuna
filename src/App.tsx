@@ -1,24 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import DisqualificationPage from "./components/DisqualificationPage";
+import LandingPage from "./components/LandingPage";
+import NewAccountPage from "./components/NewAccountPage";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch>
+        <Route path="/disqualified">
+          <DisqualificationPage />
+        </Route>
+        <Route path="/qualified">
+          <NewAccountPage />
+        </Route>
+        <Route path="/">
+          <LandingPage />
+        </Route>
+      </Switch>
     </div>
   );
 }
