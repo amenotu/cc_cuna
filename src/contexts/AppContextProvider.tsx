@@ -4,10 +4,10 @@ import AppContext from "./AppContext";
 
 export default class AppImpl extends Component {
   state = {
-    isQualified: undefined,
+    isQualified: null,
   };
 
-  setIsQualified = (isQualified: boolean) => {
+  setIsQualified = (isQualified?: boolean) => {
     this.setState({ isQualified });
   };
 
@@ -16,6 +16,7 @@ export default class AppImpl extends Component {
       <AppContext.Provider
         value={{
           isQualified: this.state.isQualified,
+          setIsQualified: this.setIsQualified,
         }}
       >
         <App />

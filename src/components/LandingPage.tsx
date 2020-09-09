@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import AppContext from "../contexts/AppContext";
+import { mockPost } from "../utils/mockPost";
 
 interface FormData {
   autoPurchasePrice: number;
@@ -10,6 +13,7 @@ interface FormData {
 }
 
 export default function LandingPage() {
+  let history = useHistory();
   const [isValid, setIsValid] = useState(false);
   let initialFormData = {
     autoPurchasePrice: 0,
@@ -19,6 +23,7 @@ export default function LandingPage() {
     estimatedCreditScore: 0,
   };
   const [formData, updateFormData] = useState<FormData>(initialFormData);
+  const { isQualified, setIsQualified } = useContext(AppContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,24 +31,64 @@ export default function LandingPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLInputElement>) => {
     const form = event.currentTarget;
-    console.log("\nIs the form valid?  ", form.checkValidity(), "\n");
+    // console.log("\nIs the form valid?  ", form.checkValidity(), "\n");
 
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      event.preventDefault();
+      setIsValid(true);
+
+      /**
+       * TODO: Implement mockpost here. A post request will be made here when
+       * the form is submitted, which won't happen until it all inputs pass
+       * validation. The response from the API call will come back
+       * with a qualified flag that will be true/false, where true will cause
+       * the app the route to /qualifed [NewAccontPage] so users can create
+       * and account, and false will route to /disqualified [DisqualificationPage]
+       * where users see the dq notice and are asked to contact customer service.
+       */
+
+      //mimic a request object that gets sent via the Fetch API
+      let request = {
+        url: "http://localhost:3000/someAPIendpoint",
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+      };
+
+      /**
+       * use the mock utility function to make the API call then do something
+       * with the information sent back from the server
+       */
+
+      await mockPost(request).then((responseResults) => {
+        console.log("RESULTS FROM RESPONSE: ", responseResults);
+        //check the qualified flag, route accordingly
+        console.log("Qualification status before update: ", isQualified);
+
+        if (responseResults.qualificationStatus) {
+          console.log(
+            "QUALIFICATION STATUS FROM RESPONSE: ",
+            responseResults.qualificationStatus
+          );
+          //update isQualified flag on Context
+          //route to /qualified ==> sent to New Account page
+          setIsQualified(responseResults.qualificationStatus);
+          history.push("/qualified");
+        } else {
+          //update DQmessage on Context and isQualified flag
+          //route to /disqualified ==> sent to Disqualification Page
+          history.push("/disqualified");
+        }
+      });
     }
-
-    /**
-     * TODO: Implement mockpost here. A post request will be made here when
-     * the form is submitted, which won't happen until it all inputs pass
-     * validation. The response from the API call will come back
-     * with a qualified flag that will be true/false, where true will cause
-     * the app the route to /qualifed [NewAccontPage] so users can create
-     * and account, and false will route to /disqualified [DisqualificationPage]
-     * where users see the dq notice and are asked to contact customer service.
-     */
-
-    setIsValid(true);
   };
 
   return (
