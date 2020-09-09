@@ -1,7 +1,7 @@
 interface Response {
   status?: number;
   statusText?: string;
-  qualificationStatus: null | boolean;
+  qualificationStatus?: boolean;
   dqMsg?: string;
 }
 
@@ -24,7 +24,7 @@ export const mockPost = (requestObj: Request) => {
   let response: Response = {
     status: undefined,
     statusText: undefined,
-    qualificationStatus: null,
+    qualificationStatus: undefined,
   };
 
   if (parsedRequestObj.autoPurchasePrice > 1000000) {

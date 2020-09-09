@@ -23,7 +23,7 @@ export default function LandingPage() {
     estimatedCreditScore: 0,
   };
   const [formData, updateFormData] = useState<FormData>(initialFormData);
-  const { isQualified, setIsQualified } = useContext(AppContext);
+  const { setIsQualified, setDisqualificationMessage } = useContext(AppContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateFormData({ ...formData, [e.target.name]: e.target.value });
@@ -71,21 +71,25 @@ export default function LandingPage() {
       await mockPost(request).then((responseResults) => {
         console.log("RESULTS FROM RESPONSE: ", responseResults);
         //check the qualified flag, route accordingly
-        console.log("Qualification status before update: ", isQualified);
 
-        if (responseResults.qualificationStatus) {
-          console.log(
-            "QUALIFICATION STATUS FROM RESPONSE: ",
-            responseResults.qualificationStatus
-          );
-          //update isQualified flag on Context
-          //route to /qualified ==> sent to New Account page
-          setIsQualified(responseResults.qualificationStatus);
-          history.push("/qualified");
-        } else {
-          //update DQmessage on Context and isQualified flag
-          //route to /disqualified ==> sent to Disqualification Page
-          history.push("/disqualified");
+        //check if responseResults exists first, then check qualifications
+        if (responseResults) {
+          if (responseResults && responseResults.qualificationStatus) {
+            console.log(
+              "QUALIFICATION STATUS FROM RESPONSE: ",
+              responseResults.qualificationStatus
+            );
+            //update isQualified flag on Context
+            //route to /qualified ==> sent to New Account page
+            setIsQualified(responseResults.qualificationStatus);
+            history.push("/qualified");
+          } else {
+            //update DQmessage on Context and isQualified flag
+            //route to /disqualified ==> sent to Disqualification Page
+            setIsQualified(responseResults.qualificationStatus);
+            setDisqualificationMessage(responseResults.dqMsg);
+            history.push("/disqualified");
+          }
         }
       });
     }
