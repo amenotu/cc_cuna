@@ -4,11 +4,16 @@ import AppContext from "./AppContext";
 
 export default class AppImpl extends Component {
   state = {
-    isQualified: null,
+    isQualified: undefined,
+    disqualificationMessage: undefined,
   };
 
   setIsQualified = (isQualified?: boolean) => {
     this.setState({ isQualified });
+  };
+
+  setDisqualificationMessage = (disqualificationMessage?: string) => {
+    this.setState({ disqualificationMessage });
   };
 
   render() {
@@ -17,6 +22,8 @@ export default class AppImpl extends Component {
         value={{
           isQualified: this.state.isQualified,
           setIsQualified: this.setIsQualified,
+          disqualificationMessage: this.state.disqualificationMessage,
+          setDisqualificationMessage: this.setDisqualificationMessage,
         }}
       >
         <App />
