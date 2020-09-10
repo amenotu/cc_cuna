@@ -8,7 +8,6 @@ interface NewUserFormData {
 }
 
 export default function CreateUserPage() {
-  const [isValid, setValidity] = useState(false);
   const [formData, updateFormData] = useState<NewUserFormData>({
     email: "",
     password: "",
@@ -50,7 +49,15 @@ export default function CreateUserPage() {
       event.preventDefault();
       event.stopPropagation();
     }
-    setValidity(true);
+
+    if (
+      form.checkValidity() &&
+      isEmailValid &&
+      isPasswordValid &&
+      matchingPasswords
+    ) {
+      alert("Send the new user data somewhere to be saved, like a database!");
+    }
   };
 
   const checkEmail = (email: string) => {
@@ -94,7 +101,7 @@ export default function CreateUserPage() {
 
   return (
     <div>
-      <Form noValidate validated={isValid} onSubmit={handleSubmit}>
+      <Form noValidate onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Email address</Form.Label>
           <Form.Control
