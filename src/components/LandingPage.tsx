@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import AppContext from "../contexts/AppContext";
-import { mockPost } from "../utils/mockPost";
+import { mockFetch } from "../utils/mockFetch";
 
 interface FormData {
   autoPurchasePrice: number;
@@ -29,6 +29,8 @@ export default function LandingPage() {
     isQualified,
   } = useContext(AppContext);
 
+  //disables the user from navigating away from the Disqualification page and preserves
+  //access to the disqualificationMessage on AppContext
   useEffect(() => {
     if (isQualified === false) {
       history.push("/disqualified");
@@ -49,7 +51,7 @@ export default function LandingPage() {
       event.preventDefault();
       setIsValid(true);
 
-      // mimic a request object that gets sent via the Fetch API
+      //mimic a request object that gets sent via the Fetch API
       let request = {
         url: "http://localhost:3000/someAPIendpoint",
         method: "POST",
@@ -62,7 +64,8 @@ export default function LandingPage() {
         referrerPolicy: "no-referrer",
       };
 
-      await mockPost(request).then((responseResults) => {
+      //mocks a POST request made to an API endpoint
+      await mockFetch(request).then((responseResults) => {
         if (responseResults) {
           if (responseResults && responseResults.qualificationStatus) {
             setIsQualified(responseResults.qualificationStatus);
@@ -79,102 +82,114 @@ export default function LandingPage() {
 
   return (
     <div>
-      <Form
-        noValidate
-        validated={isValid}
-        onSubmit={handleSubmit}
-        data-testid="landing-page-form"
-      >
-        <Form.Group>
-          <label htmlFor="Auto Purchase Price">Auto Purchase Price</label>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>$</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              data-testid="auto-purchase-price-input"
-              aria-label="Amount (to the nearest dollar)"
-              type="number"
-              name="autoPurchasePrice"
+      <div className="text-container">
+        <p>
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa. Non
+          numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+          quaerat voluptate Lorem ipsum dolor sit amet, consectetur adipisicing
+          elit. At vero eos et accusamus. Accusantium doloremque laudantium,
+          totam rem aperiam, eaque ipsa quae ab illo. Totam rem aperiam. Nihil
+          molestiae consequatur, vel illum qui dolorem eum.
+        </p>
+      </div>
+      <div className="container">
+        <Form
+          noValidate
+          validated={isValid}
+          onSubmit={handleSubmit}
+          data-testid="landing-page-form"
+        >
+          <Form.Group>
+            <label htmlFor="Auto Purchase Price">Auto Purchase Price</label>
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text>$</InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                data-testid="auto-purchase-price-input"
+                aria-label="Amount (to the nearest dollar)"
+                type="number"
+                name="autoPurchasePrice"
+                onChange={handleChange}
+                placeholder="5000"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter a number.
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Auto Make</Form.Label>
+            <Form.Control
+              data-testid="auto-make-input"
+              type="text"
+              placeholder="Toyota"
+              name="autoMake"
               onChange={handleChange}
-              placeholder="5000"
               required
             />
             <Form.Control.Feedback type="invalid">
-              Please enter a number.
+              Please enter an Auto Make.
             </Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Auto Make</Form.Label>
-          <Form.Control
-            data-testid="auto-make-input"
-            type="text"
-            placeholder="Toyota"
-            name="autoMake"
-            onChange={handleChange}
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Please enter an Auto Make.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Auto Model</Form.Label>
-          <Form.Control
-            data-testid="auto-model-input"
-            type="text"
-            placeholder="Tacoma"
-            name="autoModel"
-            onChange={handleChange}
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Please enter an Auto Model.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group>
-          <label htmlFor="Estimated Yearly Income">
-            Estimated Yearly Income
-          </label>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>$</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              data-testid="estimated-yearly-income-input"
-              aria-label="Amount (to the nearest dollar)"
-              type="number"
-              name="estimatedYearlyIncome"
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Auto Model</Form.Label>
+            <Form.Control
+              data-testid="auto-model-input"
+              type="text"
+              placeholder="Tacoma"
+              name="autoModel"
               onChange={handleChange}
-              placeholder="45000"
               required
             />
             <Form.Control.Feedback type="invalid">
-              Please enter a number.
+              Please enter an Auto Model.
             </Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Estimated Credit Score</Form.Label>
-          <Form.Control
-            data-testid="estimated-credit-score-input"
-            type="number"
-            name="estimatedCreditScore"
-            onChange={handleChange}
-            placeholder="678"
-            required
-            min="300"
-            max="850"
-          />
-          <Form.Control.Feedback type="invalid">
-            Must be a number between 300 and 850.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          </Form.Group>
+          <Form.Group>
+            <label htmlFor="Estimated Yearly Income">
+              Estimated Yearly Income
+            </label>
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text>$</InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                data-testid="estimated-yearly-income-input"
+                aria-label="Amount (to the nearest dollar)"
+                type="number"
+                name="estimatedYearlyIncome"
+                onChange={handleChange}
+                placeholder="45000"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter a number.
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Estimated Credit Score</Form.Label>
+            <Form.Control
+              data-testid="estimated-credit-score-input"
+              type="number"
+              name="estimatedCreditScore"
+              onChange={handleChange}
+              placeholder="678"
+              required
+              min="300"
+              max="850"
+            />
+            <Form.Control.Feedback type="invalid">
+              Must be a number between 300 and 850.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 }

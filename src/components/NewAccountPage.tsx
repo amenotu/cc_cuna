@@ -23,6 +23,8 @@ export default function CreateUserPage() {
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
 
   useEffect(() => {
+    //checks to see if password & confirmPassword match
+    //and sets the boolean used in isValid and isInvalid properties
     if (formData.confirmPassword === undefined) {
       setNoMatchingPasswords(false);
       setMatchingPasswords(false);
@@ -50,6 +52,7 @@ export default function CreateUserPage() {
       event.stopPropagation();
     }
 
+    //checks if form is valid by checking if all inputs are valid, then makes "api call"
     if (
       form.checkValidity() &&
       isEmailValid &&
@@ -60,11 +63,13 @@ export default function CreateUserPage() {
     }
   };
 
-  const checkEmail = (email: string) => {
+  const checkEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
     const validatedEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
       email
     );
 
+    //validates email address and sets the boolean used in isValid and isInvalid properties
     if (validatedEmail) {
       setIsEmailValid(true);
       setIsEmailInvalid(false);
@@ -74,11 +79,14 @@ export default function CreateUserPage() {
     }
   };
 
-  const checkPassword = (passwordToCheck: string) => {
+  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     let message = "Please enter a valid password.";
+    const passwordToCheck = e.target.value;
     const passwordCharacterCheck = /[0-9~!@#$%^&*()_+=]/g.test(passwordToCheck);
     const passwordLength = passwordToCheck.length;
 
+    //checks email for character length and whether input value has number or special characters
+    //sets the boolean used in isValid and isInvalid properties
     if (passwordLength > 8 && passwordCharacterCheck) {
       setIsPasswordValid(true);
       setIsPasswordInvalid(false);
@@ -100,7 +108,7 @@ export default function CreateUserPage() {
   };
 
   return (
-    <div>
+    <div className="container">
       <Form noValidate onSubmit={handleSubmit} data-testid="new-account-form">
         <Form.Group>
           <Form.Label>Email address</Form.Label>
@@ -108,9 +116,9 @@ export default function CreateUserPage() {
             data-testid="username-input"
             type="email"
             placeholder="john.doe@example.com"
-            onChange={(e: any) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
-              checkEmail(e.target.value);
+              checkEmail(e);
             }}
             isValid={isEmailValid}
             isInvalid={isEmailInvalid}
@@ -127,9 +135,9 @@ export default function CreateUserPage() {
             data-testid="password-input"
             type="password"
             placeholder="Password"
-            onChange={(e: any) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
-              checkPassword(e.target.value);
+              checkPassword(e);
             }}
             isValid={isPasswordValid}
             isInvalid={isPasswordInvalid}
@@ -150,7 +158,7 @@ export default function CreateUserPage() {
             data-testid="confirm-password-input"
             type="password"
             placeholder="Password"
-            onChange={(e: any) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
             }}
             isValid={matchingPasswords}

@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import "./App.css";
 import DisqualificationPage from "./components/DisqualificationPage";
 import LandingPage from "./components/LandingPage";
 import NewAccountPage from "./components/NewAccountPage";
