@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, render } from "@testing-library/react";
 import React from "react";
-import LandingPage from "./LandingPage";
+import LandingPage from "../LandingPage";
 
-test("renders auto purchase price input", () => {
+test("renders landing page form", () => {
   const { getByTestId } = render(<LandingPage />);
 
   const autoPurchasePriceInput = getByTestId("auto-purchase-price-input");

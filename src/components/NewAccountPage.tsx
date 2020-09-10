@@ -101,10 +101,11 @@ export default function CreateUserPage() {
 
   return (
     <div>
-      <Form noValidate onSubmit={handleSubmit}>
+      <Form noValidate onSubmit={handleSubmit} data-testid="new-account-form">
         <Form.Group>
           <Form.Label>Email address</Form.Label>
           <Form.Control
+            data-testid="username-input"
             type="email"
             placeholder="john.doe@example.com"
             onChange={(e: any) => {
@@ -123,6 +124,7 @@ export default function CreateUserPage() {
         <Form.Group>
           <Form.Label>Password</Form.Label>
           <Form.Control
+            data-testid="password-input"
             type="password"
             placeholder="Password"
             onChange={(e: any) => {
@@ -145,6 +147,7 @@ export default function CreateUserPage() {
         <Form.Group>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
+            data-testid="confirm-password-input"
             type="password"
             placeholder="Password"
             onChange={(e: any) => {
