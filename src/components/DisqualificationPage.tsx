@@ -5,7 +5,7 @@ export default function DisqualificationNotice() {
   const { disqualificationMessage } = useContext(AppContext);
 
   return (
-    <div>
+    <div className="text-container">
       <p>{disqualificationMessage}</p>
       <p>
         Please contact customer service at 1-800-XXX-XXXX for further

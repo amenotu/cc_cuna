@@ -63,7 +63,8 @@ export default function CreateUserPage() {
     }
   };
 
-  const checkEmail = (email: string) => {
+  const checkEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
     const validatedEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
       email
     );
@@ -78,8 +79,9 @@ export default function CreateUserPage() {
     }
   };
 
-  const checkPassword = (passwordToCheck: string) => {
+  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     let message = "Please enter a valid password.";
+    const passwordToCheck = e.target.value;
     const passwordCharacterCheck = /[0-9~!@#$%^&*()_+=]/g.test(passwordToCheck);
     const passwordLength = passwordToCheck.length;
 
@@ -106,7 +108,7 @@ export default function CreateUserPage() {
   };
 
   return (
-    <div>
+    <div className="container">
       <Form noValidate onSubmit={handleSubmit} data-testid="new-account-form">
         <Form.Group>
           <Form.Label>Email address</Form.Label>
@@ -116,7 +118,7 @@ export default function CreateUserPage() {
             placeholder="john.doe@example.com"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
-              checkEmail(e.target.value);
+              checkEmail(e);
             }}
             isValid={isEmailValid}
             isInvalid={isEmailInvalid}
@@ -135,7 +137,7 @@ export default function CreateUserPage() {
             placeholder="Password"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
-              checkPassword(e.target.value);
+              checkPassword(e);
             }}
             isValid={isPasswordValid}
             isInvalid={isPasswordInvalid}
