@@ -1,25 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
-/**
- * This page shows up if the person qualifies.
- * should have input fields that looks for Username and password
- * should have form validation
- * username validated at email
- * password should be more and 8 characters and have a number or special character
- * password is typed twice
- */
-
-interface NewUser {
+interface NewUserFormData {
   email: string;
   password: string;
+  confirmPassword?: string;
 }
 
 export default function CreateUserPage() {
-  const [isValid, setValidity] = useState(false);
-  const [formData, updateFormData] = useState<NewUser>({
+  const [formData, updateFormData] = useState<NewUserFormData>({
     email: "",
     password: "",
+    confirmPassword: undefined,
   });
 
   const [isPasswordValid, setIsPasswordValid] = useState(false);
@@ -29,6 +21,22 @@ export default function CreateUserPage() {
   const [noMatchingPasswords, setNoMatchingPasswords] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
+
+  useEffect(() => {
+    if (formData.confirmPassword === undefined) {
+      setNoMatchingPasswords(false);
+      setMatchingPasswords(false);
+    } else if (
+      formData.password === formData.confirmPassword &&
+      formData.confirmPassword !== undefined
+    ) {
+      setMatchingPasswords(true);
+      setNoMatchingPasswords(false);
+    } else {
+      setMatchingPasswords(false);
+      setNoMatchingPasswords(true);
+    }
+  }, [formData.password, formData.confirmPassword, formData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,15 +49,21 @@ export default function CreateUserPage() {
       event.preventDefault();
       event.stopPropagation();
     }
-    setValidity(true);
+
+    if (
+      form.checkValidity() &&
+      isEmailValid &&
+      isPasswordValid &&
+      matchingPasswords
+    ) {
+      alert("Send the new user data somewhere to be saved, like a database!");
+    }
   };
 
   const checkEmail = (email: string) => {
     const validatedEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
       email
     );
-
-    console.log("\n\nVALIDATED EMAIL: ", validatedEmail);
 
     if (validatedEmail) {
       setIsEmailValid(true);
@@ -85,19 +99,9 @@ export default function CreateUserPage() {
     }
   };
 
-  const checkPasswordMatch = (password1: string) => {
-    if (password1 === formData.password) {
-      setMatchingPasswords(true);
-      setNoMatchingPasswords(false);
-    } else {
-      setMatchingPasswords(false);
-      setNoMatchingPasswords(true);
-    }
-  };
-
   return (
     <div>
-      <Form noValidate validated={isValid} onSubmit={handleSubmit}>
+      <Form noValidate onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -144,10 +148,12 @@ export default function CreateUserPage() {
             type="password"
             placeholder="Password"
             onChange={(e: any) => {
-              checkPasswordMatch(e.target.value);
+              handleChange(e);
             }}
             isValid={matchingPasswords}
             isInvalid={noMatchingPasswords}
+            name="confirmPassword"
+            disabled={!isPasswordValid}
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -157,13 +163,15 @@ export default function CreateUserPage() {
             Passwords match.
           </Form.Control.Feedback>
         </Form.Group>
-        {isEmailValid && isPasswordValid && !noMatchingPasswords ? (
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        ) : (
-          <Button disabled>Submit</Button>
-        )}
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={
+            isEmailValid && isPasswordValid && matchingPasswords ? false : true
+          }
+        >
+          Submit
+        </Button>
       </Form>
     </div>
   );
