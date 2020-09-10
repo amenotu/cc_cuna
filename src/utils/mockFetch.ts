@@ -15,7 +15,7 @@ interface Request {
   referrerPolicy: string;
 }
 
-export const mockPost = (requestObj: Request) => {
+export const mockFetch = (requestObj: Request) => {
   //simulates recieving a request object from the client and
   //mocks the backend logic for handling a POST request
   const parsedRequestObj = JSON.parse(requestObj.body);

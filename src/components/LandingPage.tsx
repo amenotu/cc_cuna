@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import AppContext from "../contexts/AppContext";
-import { mockPost } from "../utils/mockPost";
+import { mockFetch } from "../utils/mockFetch";
 
 interface FormData {
   autoPurchasePrice: number;
@@ -65,7 +65,7 @@ export default function LandingPage() {
       };
 
       //mocks a POST request made to an API endpoint
-      await mockPost(request).then((responseResults) => {
+      await mockFetch(request).then((responseResults) => {
         if (responseResults) {
           if (responseResults && responseResults.qualificationStatus) {
             setIsQualified(responseResults.qualificationStatus);
