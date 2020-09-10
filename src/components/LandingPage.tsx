@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import AppContext from "../contexts/AppContext";
 import { mockPost } from "../utils/mockPost";
 
@@ -23,7 +23,11 @@ export default function LandingPage() {
     estimatedCreditScore: 0,
   };
   const [formData, updateFormData] = useState<FormData>(initialFormData);
-  const { setIsQualified, setDisqualificationMessage } = useContext(AppContext);
+  const {
+    setIsQualified,
+    setDisqualificationMessage,
+    isQualified,
+  } = useContext(AppContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateFormData({ ...formData, [e.target.name]: e.target.value });
@@ -95,8 +99,13 @@ export default function LandingPage() {
     }
   };
 
+  if (isQualified === false) {
+    return <Redirect to="/disqualified" />;
+  }
+
   return (
     <div>
+      {}
       <Form noValidate validated={isValid} onSubmit={handleSubmit}>
         <Form.Group>
           <label htmlFor="Auto Purchase Price">Auto Purchase Price</label>
