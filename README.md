@@ -24,19 +24,19 @@ See the deployed application here: codingchallengecuna.surge.sh
 
 ### Notable Details
 
-- Routing is handled with React-Router, a widely used routing solution and API with community support. NextJS was briefly considered, but ultimately decided it would have been too robust for the scope of this application.
+- Routing is handled with React-Router, a widely used routing library with community support. NextJS was briefly considered, but ultimately decided it would have been too robust for the scope of this application.
 
-- Testing is done through React Testing Library. Some tests are written to assure expected validation behavior. If I had more time, I would write more comprehensive tests to check if components render correctly, methods have the correct inputs/outputs and function, and edge cases from emulating potential unexpected user behavior.
+- Testing is done through React Testing Library. Basic tests are written to assure expected validation behavior.
 
-- React Context API for global state management, in lieu of Redux, resulting in less boiler plate. Redux would have been overkill for the scope this excercise. I know I could have used component state to implement what needed to be done, but I wanted to demonstrate how I could leverage the React Context API. A downside to using React Context API is the lack of tools available for debugging in the browser, which is available for Redux through the Redux DevTools plug-in.
+- React Context API for global state management, in lieu of Redux, resulting in less boiler plate. Redux would have been overkill for the scope of this excercise. I know I could have used component state to implement what needed to be done, but I wanted to demonstrate how I could leverage the React Context API. A downside to using React Context API is the lack of tools available for debugging in the browser, which is available for Redux through the Redux DevTools plug-in.
 
 - React-Bootstrap for less complex form validation and simple styling,
 
-- More complex form validation handled with custom methods that use Regex, mainly found in the new account page.
+- More complex form validation handled with custom methods that use Regex, found in the new account page.
 
 - mockFetch implemented to emulate an API call done by the Fetch API. My implementation uses Request-like and Response-like objects.
 
-- Error-handling could have been done within the promise, in the mockFetch.
+- Error-handling could have been done within the promise, in the mockFetch, but I did not implement that due to time.
 
 - Coding exercise done in Typescript to leverage tooling and strong typing.
 
