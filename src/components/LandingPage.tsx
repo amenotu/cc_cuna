@@ -79,7 +79,12 @@ export default function LandingPage() {
 
   return (
     <div>
-      <Form noValidate validated={isValid} onSubmit={handleSubmit}>
+      <Form
+        noValidate
+        validated={isValid}
+        onSubmit={handleSubmit}
+        data-testid="landing-page-form"
+      >
         <Form.Group>
           <label htmlFor="Auto Purchase Price">Auto Purchase Price</label>
           <InputGroup>
@@ -87,6 +92,7 @@ export default function LandingPage() {
               <InputGroup.Text>$</InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
+              data-testid="auto-purchase-price-input"
               aria-label="Amount (to the nearest dollar)"
               type="number"
               name="autoPurchasePrice"
@@ -102,6 +108,7 @@ export default function LandingPage() {
         <Form.Group>
           <Form.Label>Auto Make</Form.Label>
           <Form.Control
+            data-testid="auto-make-input"
             type="text"
             placeholder="Toyota"
             name="autoMake"
@@ -115,6 +122,7 @@ export default function LandingPage() {
         <Form.Group>
           <Form.Label>Auto Model</Form.Label>
           <Form.Control
+            data-testid="auto-model-input"
             type="text"
             placeholder="Tacoma"
             name="autoModel"
@@ -134,6 +142,7 @@ export default function LandingPage() {
               <InputGroup.Text>$</InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
+              data-testid="estimated-yearly-income-input"
               aria-label="Amount (to the nearest dollar)"
               type="number"
               name="estimatedYearlyIncome"
@@ -149,6 +158,7 @@ export default function LandingPage() {
         <Form.Group>
           <Form.Label>Estimated Credit Score</Form.Label>
           <Form.Control
+            data-testid="estimated-credit-score-input"
             type="number"
             name="estimatedCreditScore"
             onChange={handleChange}
