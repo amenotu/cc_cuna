@@ -23,6 +23,8 @@ export default function CreateUserPage() {
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
 
   useEffect(() => {
+    //checks to see if password & confirmPassword match
+    //and sets the boolean used in isValid and isInvalid properties
     if (formData.confirmPassword === undefined) {
       setNoMatchingPasswords(false);
       setMatchingPasswords(false);
@@ -50,6 +52,7 @@ export default function CreateUserPage() {
       event.stopPropagation();
     }
 
+    //checks if form is valid by checking if all inputs are valid, then makes "api call"
     if (
       form.checkValidity() &&
       isEmailValid &&
@@ -65,6 +68,7 @@ export default function CreateUserPage() {
       email
     );
 
+    //validates email address and sets the boolean used in isValid and isInvalid properties
     if (validatedEmail) {
       setIsEmailValid(true);
       setIsEmailInvalid(false);
@@ -79,6 +83,8 @@ export default function CreateUserPage() {
     const passwordCharacterCheck = /[0-9~!@#$%^&*()_+=]/g.test(passwordToCheck);
     const passwordLength = passwordToCheck.length;
 
+    //checks email for character length and whether input value has number or special characters
+    //sets the boolean used in isValid and isInvalid properties
     if (passwordLength > 8 && passwordCharacterCheck) {
       setIsPasswordValid(true);
       setIsPasswordInvalid(false);
@@ -108,7 +114,7 @@ export default function CreateUserPage() {
             data-testid="username-input"
             type="email"
             placeholder="john.doe@example.com"
-            onChange={(e: any) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
               checkEmail(e.target.value);
             }}
@@ -127,7 +133,7 @@ export default function CreateUserPage() {
             data-testid="password-input"
             type="password"
             placeholder="Password"
-            onChange={(e: any) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
               checkPassword(e.target.value);
             }}
@@ -150,7 +156,7 @@ export default function CreateUserPage() {
             data-testid="confirm-password-input"
             type="password"
             placeholder="Password"
-            onChange={(e: any) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
             }}
             isValid={matchingPasswords}

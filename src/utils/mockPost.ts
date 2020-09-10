@@ -16,9 +16,14 @@ interface Request {
 }
 
 export const mockPost = (requestObj: Request) => {
+  //simulates recieving a request object from the client and
+  //mocks the backend logic for handling a POST request
   const parsedRequestObj = JSON.parse(requestObj.body);
+
+  //a fifth of the estimated yearly income
   const aFifthOfEYI = parsedRequestObj.estimatedYearlyIncome / 5;
 
+  //mimics a response object
   let response: Response = {
     status: undefined,
     statusText: undefined,

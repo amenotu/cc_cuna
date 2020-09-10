@@ -29,6 +29,8 @@ export default function LandingPage() {
     isQualified,
   } = useContext(AppContext);
 
+  //disables the user from navigating away from the Disqualification page and preserves
+  //access to the disqualificationMessage on AppContext
   useEffect(() => {
     if (isQualified === false) {
       history.push("/disqualified");
@@ -49,7 +51,7 @@ export default function LandingPage() {
       event.preventDefault();
       setIsValid(true);
 
-      // mimic a request object that gets sent via the Fetch API
+      //mimic a request object that gets sent via the Fetch API
       let request = {
         url: "http://localhost:3000/someAPIendpoint",
         method: "POST",
@@ -62,6 +64,7 @@ export default function LandingPage() {
         referrerPolicy: "no-referrer",
       };
 
+      //mocks a POST request made to an API endpoint
       await mockPost(request).then((responseResults) => {
         if (responseResults) {
           if (responseResults && responseResults.qualificationStatus) {
