@@ -20,7 +20,7 @@ To run the development server, `npm start` then go to `localhost:3000`
 
 **OR**
 
-See the deployed application here: codingchallengecuna.surge.sh
+See the deployed application here: https://codingchallengecuna.surge.sh
 
 ### Notable Details
 
